@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model BrandProfile {
+  id            String   @id @default(cuid())
+  brandName     String
+  vision        String
+  tone          String
+  audience      String
+  pillarsRaw    String   @default("")
+  cadencePerWeek Int     @default(5)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model SocialAccount {
+  id            String        @id @default(cuid())
+  platform      String
+  handle        String
+  accountLabel  String
+  accessToken   String
+  status        String        @default("ACTIVE")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  posts         ScheduledPost[]
+}
+
+model ScheduledPost {
+  id              String      @id @default(cuid())
+  platform        String
+  socialAccountId String?
+  socialAccount   SocialAccount? @relation(fields: [socialAccountId], references: [id])
+  content         String
+  scheduledFor    DateTime
+  status          String      @default("DRAFT")
+  publishedAt     DateTime?
+  resultMessage   String?
+  tags            String      @default("")
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
+
+model AgentLog {
+  id         String   @id @default(cuid())
+  runAt      DateTime @default(now())
+  summary    String
+  details    String
+}

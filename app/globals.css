@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-ink-100 text-ink-900;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+a {
+  @apply text-sky-500 hover:text-sky-400;
+}
+
+.gradient-border {
+  position: relative;
+  border-radius: 1rem;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #0ea5e9, #7dd3fc, #3b82f6);
+  z-index: -1;
+  opacity: 0.75;
+}
